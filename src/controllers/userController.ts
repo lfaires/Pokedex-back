@@ -11,3 +11,7 @@ export async function getUsers (req: Request, res: Response) {
     res.sendStatus(500);
   }
 }
+
+export async function signUp(req: Request, res: Response){
+  const {email, password} = req.body
+}
