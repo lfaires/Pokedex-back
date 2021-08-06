@@ -12,11 +12,9 @@ export async function getUsers () {
   return users;
 }
 
-
-
 export async function findByEmail (email: string) {
   const user = await getRepository(User).find({ email });
-  return user.length !== 0 ? true : false;
+  return user.length !== 0 ? user[0] : false;
 };
 
 export async function saveUser (email: string, password: string) {
@@ -26,4 +24,11 @@ export async function saveUser (email: string, password: string) {
   await repository.insert({email, password: hashedPassword})
 
   return true;
+};
+
+export async function checkPassword(password: string, userPassword: string) {
+  if(userPassword && bcrypt.compareSync(password, userPassword)){
+    return true
+  } 
+  return false;
 };

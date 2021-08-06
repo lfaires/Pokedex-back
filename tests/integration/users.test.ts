@@ -35,3 +35,17 @@ describe("POST /sign-up", () => {
     const user = await createUser();
   });
 });
+
+describe("POST /sign-in", () => {
+  it("should answer with text \"OK!\" and status 200 for valid params", async () => {
+    const user = await createUser();
+  });
+
+  it("should answer with status 400 for email doesn't registered", async () => {
+    const user = await createUser();
+  });
+
+  it("should answer with status 401 for invalid password", async () => {
+    const user = await createUser();
+  });
+});

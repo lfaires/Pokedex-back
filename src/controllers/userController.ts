@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import { Request, Response } from "express";
 
 import * as userService from "../services/userService";
@@ -25,13 +26,23 @@ export async function signUp(req: Request, res: Response){
   }
 }
 
+interface Login {
+  email: string;
+  password: string;
+}
+
 export async function signIn(req: Request, res: Response){
   try{
-    //checkar email rsesponder 400
-    //checkar usuario cadastrado responder 401
-    //gerar token
-    const token = 'token_gerado'
-    res.send({ token })
+    const { email, password } = req.body as Login;
+
+    const user = await userService.findByEmail(email);
+    if (!user) return res.sendStatus(400);
+    
+    const checkPassword = await userService.checkPassword(password, user.password);
+    if (!checkPassword) return res.sendStatus(401);
+   
+    const token = uuid();
+    res.send(token)
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
