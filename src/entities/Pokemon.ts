@@ -18,7 +18,7 @@ export default class Pokemon {
     height: number;
 
     @Column('integer')
-    weigth: number;
+    weight: number;
 
     @Column('integer')
     baseExp: number;
