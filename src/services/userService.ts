@@ -3,13 +3,6 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 
 import User from "../entities/User";
-import { signUpSchema } from '../schemas/signUpSchema'
-
-interface UserInfo {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
 
 export async function getUsers () {
   const users = await getRepository(User).find({
@@ -19,10 +12,7 @@ export async function getUsers () {
   return users;
 }
 
-export async function validation (params: UserInfo) {
-  const validate = signUpSchema.validate(params).error
-  if (validate) return true
-};
+
 
 export async function findByEmail (email: string) {
   const user = await getRepository(User).find({ email });

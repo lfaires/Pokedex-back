@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const signUpSchema = Joi.object({
+const userSchema = Joi.object({
     email: Joi.string()
         .email()
         .required(),
@@ -12,4 +12,4 @@ const signUpSchema = Joi.object({
     confirmPassword: Joi.ref('password')
 })
 
-export { signUpSchema };
+export { userSchema };
