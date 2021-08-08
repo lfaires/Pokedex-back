@@ -1,16 +1,9 @@
 import bcrypt from 'bcrypt';
-import { Request, Response } from "express";
+import { v4 as uuid } from "uuid";
 import { getRepository } from "typeorm";
 
 import User from "../entities/User";
-
-export async function getUsers () {
-  const users = await getRepository(User).find({
-    select: ["id", "email"]
-  });
-  
-  return users;
-}
+import Session from "../entities/Session";
 
 export async function findByEmail (email: string) {
   const user = await getRepository(User).find({ email });
@@ -26,9 +19,20 @@ export async function saveUser (email: string, password: string) {
   return true;
 };
 
-export async function checkPassword(password: string, userPassword: string) {
-  if(userPassword && bcrypt.compareSync(password, userPassword)){
-    return true
+interface UserData {
+  id: number;
+  email: string;
+  password: string;
+}
+
+export async function createSession(password: string, user: UserData) {
+  if(user && bcrypt.compareSync(password, user.password)){
+    const token = uuid()
+    const repository = await getRepository(Session);
+    
+    await repository.insert({userId: user.id, token})
+    return token
   } 
   return false;
 };
+

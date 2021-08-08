@@ -9,6 +9,9 @@ export default class Session {
     @Column()
     token: string;
 
+    @Column()
+    userId: number;
+
     @OneToOne(() => User)
     @JoinColumn()
     user: User;

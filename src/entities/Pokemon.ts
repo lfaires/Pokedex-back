@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import PokemonUser from "./PokemonUser";
+import User from "./User";
 
 @Entity('pokemons')
 export default class Pokemon {
@@ -24,5 +26,8 @@ export default class Pokemon {
     baseExp: number;
 
     @Column('text')
-    description: string
+    description: string;
+
+    @OneToMany( () => PokemonUser, pokemonUser => pokemonUser.pokemon)
+    pokemonUsers: PokemonUser[]
 }
